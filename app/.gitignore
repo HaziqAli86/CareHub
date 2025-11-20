@@ -1,0 +1,11 @@
+/build
+
+# Firebase (Sensitive)
+google-services.json
+
+# Local configuration (Sensitive)
+local.properties
+
+# OS generated files
+.DS_Store
+thumbs.db
