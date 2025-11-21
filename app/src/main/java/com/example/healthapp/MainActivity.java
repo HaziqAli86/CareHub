@@ -2,57 +2,51 @@ package com.example.healthapp;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private DoctorAdapter adapter;
-    private List<Doctor> doctorList;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
+    private ViewPagerAdapter adapter;
+
+    // Icons for the tabs (Ensure you have these in res/drawable)
+    // If you don't have them, replace with R.drawable.ic_launcher_foreground for now
+    private int[] tabIcons = {
+            R.drawable.ic_home,      // Create or download this icon
+            R.drawable.ic_calendar,  // Create or download this icon
+            R.drawable.ic_chat,      // Create or download this icon
+            R.drawable.ic_settings   // Create or download this icon
+    };
+
+    private String[] tabTitles = {"Home", "Schedule", "Message", "Setting"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 0. Quick Login for Testing
-        com.google.firebase.auth.FirebaseAuth auth = com.google.firebase.auth.FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() == null) {
-            auth.signInAnonymously().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    android.util.Log.d("Auth", "Signed in anonymously");
-                } else {
-                    android.util.Log.e("Auth", "Sign in failed", task.getException());
-                }
-            });
-        }
-
         setContentView(R.layout.activity_main);
 
-        // 1. Initialize RecyclerView
-        recyclerView = findViewById(R.id.recycler_view_doctors);
+        // Login Check (Quick Fix)
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        // Important: Set layout to HORIZONTAL to match Image 62
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        viewPager2 = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
 
-        // 2. Create Dummy Data
-        doctorList = new ArrayList<>();
-        doctorList.add(new Doctor("1", "Dr. Zubaidah", "Radiology", "Cengkareng Hospital", "", 4.8, 120, 5));
-        doctorList.add(new Doctor("2", "Dr. Claire", "Dentist", "Cengkareng Hospital", "", 5.0, 300, 8));
-        doctorList.add(new Doctor("3", "Dr. Jhon", "General", "Jakarta Hospital", "", 4.5, 100, 3));
+        adapter = new ViewPagerAdapter(this);
+        viewPager2.setAdapter(adapter);
 
-        // 3. Set Adapter
-        adapter = new DoctorAdapter(this, doctorList);
-        recyclerView.setAdapter(adapter);
+        // Disable swipe if you want it to act like a strict Bottom Nav
+        // viewPager2.setUserInputEnabled(false);
 
-        // Find the bottom bar container (LinearLayout)
-        android.widget.LinearLayout bottomBar = findViewById(R.id.bottom_bar);
-
-        bottomBar.setOnClickListener(v -> {
-            android.content.Intent intent = new android.content.Intent(MainActivity.this, ScheduleActivity.class);
-            startActivity(intent);
-        });
+        // Connect TabLayout with ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager2,
+                (tab, position) -> {
+                    tab.setText(tabTitles[position]);
+                    tab.setIcon(tabIcons[position]);
+                }
+        ).attach();
     }
 }

@@ -9,13 +9,14 @@ public class Appointment {
     private String date;  // e.g., "Mon, 03 July"
     private String time;  // e.g., "09:00 AM"
     private String status; // "upcoming", "completed", or "canceled"
+    private String patientName;
 
     // 1. Empty Constructor (Required for Firebase)
     public Appointment() {
     }
 
     // 2. Full Constructor
-    public Appointment(String appointmentId, String patientId, String doctorId, String doctorName, String doctorSpecialty, String date, String time, String status) {
+    public Appointment(String appointmentId, String patientId, String doctorId, String doctorName, String doctorSpecialty, String date, String time, String status, String patientName) {
         this.appointmentId = appointmentId;
         this.patientId = patientId;
         this.doctorId = doctorId;
@@ -24,6 +25,7 @@ public class Appointment {
         this.date = date;
         this.time = time;
         this.status = status;
+        this.patientName = patientName;
     }
 
     // 3. Getters and Setters
@@ -50,4 +52,7 @@ public class Appointment {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getPatientName() { return patientName; }
+    public void setPatientName(String patientName) { this.patientName = patientName; }
 }

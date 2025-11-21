@@ -87,6 +87,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
             // 4. Create the Appointment Object
             String uid = auth.getCurrentUser().getUid();
             String appointmentId = UUID.randomUUID().toString(); // Generate a random ID
+            String patientEmail = auth.getCurrentUser().getEmail();
 
             Appointment appointment = new Appointment(
                     appointmentId,
@@ -96,7 +97,8 @@ public class DoctorDetailActivity extends AppCompatActivity {
                     doctor.getSpecialty(),
                     dateStr,
                     timeStr,
-                    "upcoming" // Default status
+                    "upcoming", // Default status
+                    patientEmail
             );
 
             // 5. Save to Firestore
