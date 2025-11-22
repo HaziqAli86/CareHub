@@ -111,6 +111,16 @@ public class DoctorDetailActivity extends AppCompatActivity {
             db.collection("appointments").document(appointmentId)
                     .set(appointment)
                     .addOnSuccessListener(aVoid -> {
+                        // Create a notification object
+                        Notification notif = new Notification(
+                                "Appointment Confirmed",
+                                "You have successfully booked an appointment with " + doctor.getName(),
+                                dateStr // Use the date variable from your chips logic
+                        );
+
+                        // Save it to the User's personal notification list
+                        db.collection("users").document(uid).collection("notifications").add(notif);
+
                         Toast.makeText(this, "Appointment Booked Successfully!", Toast.LENGTH_LONG).show();
                         finish(); // Close this screen and go back to Home
                     })

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +64,13 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
     public int getItemCount() {
         return doctorList.size();
     }
+
+    // --- NEW METHOD FOR TASK 2: SEARCH FUNCTIONALITY ---
+    public void filterList(List<Doctor> filteredList) {
+        this.doctorList = filteredList;
+        notifyDataSetChanged();
+    }
+    // ---------------------------------------------------
 
     // ViewHolder Class
     public static class ViewHolder extends RecyclerView.ViewHolder {

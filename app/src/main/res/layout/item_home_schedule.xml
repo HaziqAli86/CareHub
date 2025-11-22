@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Doctor Image -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#F0F0F0"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/img_doc_today"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Hospital Name (Blue) -->
+        <TextView
+            android:id="@+id/tv_hospital_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cengkareng Hospital"
+            android:textColor="#4E7DFF"
+            android:textSize="12sp"
+            android:layout_marginStart="12dp"
+            android:drawablePadding="4dp"
+            app:drawableStartCompat="@android:drawable/ic_menu_mapmode"
+            android:drawableTint="#4E7DFF"
+            app:layout_constraintStart_toEndOf="@id/card_img"
+            app:layout_constraintTop_toTopOf="@id/card_img" />
+
+        <!-- Doctor Name -->
+        <TextView
+            android:id="@+id/tv_name_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dr. Name"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/tv_hospital_today"
+            app:layout_constraintTop_toBottomOf="@id/tv_hospital_today"/>
+
+        <!-- Specialty -->
+        <TextView
+            android:id="@+id/tv_specialty_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Specialist"
+            android:textColor="#888"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintStart_toStartOf="@id/tv_name_today"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_today"/>
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/tv_date_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mon 03"
+            android:textColor="#888"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_name_today"/>
+
+        <!-- Time -->
+        <TextView
+            android:id="@+id/tv_time_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:00 AM"
+            android:textColor="#888"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_today"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

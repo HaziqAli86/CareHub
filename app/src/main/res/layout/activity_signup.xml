@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Back"
+        android:text="Create Account"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="#000"/>
@@ -49,24 +49,53 @@
         android:padding="12dp"
         android:layout_marginBottom="24dp"/>
 
+    <!-- ROLE SELECTION -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I am a:"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+
+        <RadioButton
+            android:id="@+id/rb_patient"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Patient"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rb_doctor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Doctor"/>
+    </RadioGroup>
+
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Login"
+        android:text="Sign Up"
         android:backgroundTint="#4E7DFF"
         android:layout_marginBottom="12dp"/>
 
     <TextView
-        android:id="@+id/tv_register_link"
+        android:id="@+id/tv_login_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Sign Up"
-        android:textColor="#4E7DFF"
+        android:text="Already have an account? Login"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:padding="8dp"/>
-
+        android:textColor="#4E7DFF"
+        android:layout_marginBottom="32dp"/>
 
 
 </LinearLayout>

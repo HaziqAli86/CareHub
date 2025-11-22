@@ -5,10 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DoctorMainActivity extends AppCompatActivity {
 
@@ -32,6 +38,49 @@ public class DoctorMainActivity extends AppCompatActivity {
                     tab.setIcon(icons[position]);
                 }
         ).attach();
+
+        setupBadgeListener(tabLayout);
+
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) return;
+
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                    // Save to Firestore so we know which phone belongs to this user
+                    FirebaseFirestore.getInstance().collection("users").document(uid)
+                            .update("fcmToken", token);
+                });
+    }
+
+    private void setupBadgeListener(TabLayout tabLayout) {
+        // Ensure user is logged in to avoid crash
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) return;
+
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance().collection("users").document(myUid)
+                .addSnapshotListener((documentSnapshot, error) -> {
+                    if (error != null || documentSnapshot == null) return;
+
+                    if (documentSnapshot.contains("unreadCount")) {
+                        Long count = documentSnapshot.getLong("unreadCount");
+
+                        // For DOCTORS, "Message" is the 2nd tab (Index 1)
+                        TabLayout.Tab tab = tabLayout.getTabAt(1);
+
+                        if (tab != null) {
+                            if (count != null && count > 0) {
+                                tab.getOrCreateBadge().setVisible(true);
+                                tab.getOrCreateBadge().setNumber(count.intValue());
+                            } else {
+                                tab.getOrCreateBadge().setVisible(false);
+                            }
+                        }
+                    }
+                });
     }
 
     // INTERNAL ADAPTER CLASS

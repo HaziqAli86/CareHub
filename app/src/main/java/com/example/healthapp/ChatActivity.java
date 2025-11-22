@@ -62,6 +62,10 @@ public class ChatActivity extends AppCompatActivity {
         // 4. Send Button
         btnSend.setOnClickListener(v -> sendMessage());
 
+        // Reset unread count when I open the chat
+        db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .update("unreadCount", 0); // Reset badge to 0
+
         // 5. Listen for Messages
         listenForMessages();
     }
@@ -70,12 +74,14 @@ public class ChatActivity extends AppCompatActivity {
         String msgText = etMessage.getText().toString();
         if (msgText.isEmpty()) return;
 
-        Message message = new Message(senderId, receiverId, msgText, System.currentTimeMillis());
 
-        // Save to: chats -> [roomID] -> messages -> [autoID]
-        db.collection("chats").document(chatRoomId)
-                .collection("messages")
-                .add(message);
+        Message message = new Message(senderId, receiverId, msgText, System.currentTimeMillis(), false);
+
+        // 1. Add the message (Existing cod
+        db.collection("chats").document(chatRoomId).collection("messages").add(message);
+        // 2. NEW: Increment unreadCount for the Receiver
+        db.collection("users").document(receiverId)
+                .update("unreadCount", com.google.firebase.firestore.FieldValue.increment(1));
 
         etMessage.setText(""); // Clear input
     }
